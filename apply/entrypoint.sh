@@ -30,7 +30,7 @@ WORKSPACE=${TF_ACTION_WORKSPACE:-default}
 terraform workspace select "$WORKSPACE"
 
 set +e
-OUTPUT=$(sh -c "TF_IN_AUTOMATION=true terraform apply -no-color -input=false -auto-approve $*" 2>&1)
+OUTPUT=$(sh -c "TF_IN_AUTOMATION=true terraform apply -no-color -input=false -auto-approve -var=\"env_name_ci=$GITHUB_SHA\" $*" 2>&1)
 SUCCESS=$?
 echo "$OUTPUT"
 set -e
