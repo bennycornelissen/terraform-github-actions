@@ -42,9 +42,12 @@ fi
 # Build the comment we'll post to the PR.
 COMMENT=""
 if [ $SUCCESS -ne 0 ]; then
+    DESTROY_OUTPUT="$(terraform destroy -force)"
+    DESTROY_OUTPUT=$(wrap "$DESTROY_OUTPUT")
     OUTPUT=$(wrap "$OUTPUT")
     COMMENT="#### ${GITHUB_WORKFLOW} - ${GITHUB_ACTION}: \`terraform apply\` Failed
-$OUTPUT"
+$OUTPUT
+$DESTROY_OUTPUT"
 else
     # Remove "Refreshing state..." lines by only keeping output after the
     # delimiter (72 dashes) that represents the end of the refresh stage.
